@@ -1,21 +1,42 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace ConsoleApp2
+namespace NoteBookApp
 {
-    class Program
+    class Record
     {
-        public static int lenght = 100;
+        public string Surname { get; set; }
+        public string Name { get; set; }
+        public string Lastname { get; set; }
+        public long Phone { get; set; }
+        public string Country { get; set; }
+        public string DateOfBithday { get; set; }
+        public string Organization { get; set; }
+        public string Position { get; set; }
+        public string OtherNotes { get; set; }
+        public Record()
+        {
+            Surname = "";
+            Name = "";
+            Lastname = "";
+            Phone = 0;
+            Country = "";
+            DateOfBithday = "";
+            Organization = "";
+            Position = "";
+            OtherNotes = "";
+
+        }
+        public override string ToString()
+        {
+            return $"{Surname}//{Name}//{Lastname}//{Phone}//{Country}//{DateOfBithday}//" +
+                    $"{Organization}//{Position}//{OtherNotes}";
+        }
+    }
+    class Program
+    {        
         int id;
-        public List<string> surname = new List<string>();
-        public List<string> name = new List<string>();
-        public List<string> lastname = new List<string>();
-        public List<int> phone = new List<int>();
-        public List<string> country = new List<string>();
-        public List<string> dateOfBithday = new List<string>();
-        public List<string> organization = new List<string>();
-        public List<string> position = new List<string>();
-        public List<string> otherNotes = new List<string>();
+        List<Record> records = new List<Record>();
        
         static void Main(string[] args)
         {
@@ -58,38 +79,42 @@ namespace ConsoleApp2
         }
         public void CreateNote()
         {
-
-            int result;
-
-
-
-
-            Console.WriteLine("Enter surname");
-            surname.Add(Console.ReadLine());
-            Console.WriteLine("Enter name");
-            name.Add(Console.ReadLine());
-
-            Console.WriteLine("Enter phone");
-            if (int.TryParse(Console.ReadLine(), out result))
-                phone.Add(result);
-            else
+            long result;
+            Record record = new Record();
+            while (record.Surname == "")
             {
-                Console.WriteLine("Eror");
+                Console.WriteLine("Enter surname");
+                record.Surname = Console.ReadLine();
+            }
+            while (record.Name == "")
+            {
+                Console.WriteLine("Enter name");
+                record.Name = Console.ReadLine();
+            }
+            while (record.Phone == 0)
+            {
+                Console.WriteLine("Enter phone");
+                if (long.TryParse(Console.ReadLine(), out result))
+                    record.Phone = result;
+                else
+                {
+                    Console.WriteLine("Enter digits only.");
 
+                }
             }
             Console.WriteLine("Enter country");
-            country.Add(Console.ReadLine());
+            record.Country = Console.ReadLine();
             Console.WriteLine("Enter lastname");
-            lastname.Add(Console.ReadLine());
+            record.Lastname = Console.ReadLine();
             Console.WriteLine("Enter dateOfBithday");
-            dateOfBithday.Add(Console.ReadLine());
+            record.DateOfBithday = Console.ReadLine();
             Console.WriteLine("Enter organization");
-            organization.Add(Console.ReadLine());
+            record.Organization = Console.ReadLine();
             Console.WriteLine("Enter position");
-            position.Add(Console.ReadLine());
+            record.Position = Console.ReadLine();
             Console.WriteLine("Enter otherNotes");
-            otherNotes.Add(Console.ReadLine());
-            
+            record.OtherNotes = Console.ReadLine();
+            records.Add(record);
 
         }
         public void EditNote()
@@ -104,20 +129,20 @@ namespace ConsoleApp2
             {
                 case "surname":
                     Console.WriteLine("Enter surname");
-                    surname[i - 1] = Console.ReadLine();
+                    records[i-1].Surname = Console.ReadLine();
                     break;
                 case "name":
                     Console.WriteLine("Enter name");
-                    name[i - 1] = Console.ReadLine();
+                    records[i-1].Name = Console.ReadLine();
                     break;
                 case "Lastname":
                     Console.WriteLine("Enter Lastname");
-                    lastname[i - 1] = Console.ReadLine();
+                    records[i - 1].Lastname = Console.ReadLine();
                     break;
                 case "phone":
                     Console.WriteLine("Enter phone");
                     if (int.TryParse(Console.ReadLine(), out result))
-                        phone[i - 1] = result;
+                        records[i - 1].Phone = result;
                     else
                     {
                         Console.WriteLine("Eror");
@@ -126,53 +151,51 @@ namespace ConsoleApp2
                     break;
                 case "country":
                     Console.WriteLine("Enter country");
-                    country[i - 1] = Console.ReadLine();
+                    records[i - 1].Country = Console.ReadLine();
                     break;
                 case "dateOfBithday":
                     Console.WriteLine("Enter dateOfBithday");
-                    dateOfBithday[i - 1] = Console.ReadLine();
+                    records[i - 1].DateOfBithday  = Console.ReadLine();
                     break;
                 case "organization":
                     Console.WriteLine("Enter organization");
-                    organization[i - 1] = Console.ReadLine();
+                    records[i - 1].Organization = Console.ReadLine();
                     break;
                 case "doljnost":
                     Console.WriteLine("Enter doljnost");
-                    position[i - 1] = Console.ReadLine();
+                    records[i - 1].Position  = Console.ReadLine();
                     break;
                 case "otherNotes":
                     Console.WriteLine("Enter otherNotes");
-                    otherNotes[i - 1] = Console.ReadLine();
+                    records[i - 1].OtherNotes  = Console.ReadLine();
                     break;
             }
         }
         public void DeleteNote()
         {
             Console.WriteLine("Enter id which you want to delete");
-            int id = Convert.ToInt32(Console.ReadLine());
-            id = id - 1;
-            name.RemoveAt(id);
-            
+            int i = Convert.ToInt32(Console.ReadLine()) - 1;
+            if(i < records.Count)
+            records.RemoveAt(i);                        
            
         }
 
         public void LookNotes()
         {
 
-            for (int i = 0; i < surname.Count; i++)
+            for (int i = 0; i < records.Count; i++)
             {
 
-                Console.WriteLine($"{i + 1}//{surname[i]}//{name[i]}//{lastname[i]}//{phone[i]}//{country[i]}//{dateOfBithday[i]}//" +
-                    $"{organization[i]}//{position[i]}//{otherNotes[i]}");
+                Console.WriteLine(i+1 + "//" + records[i]);
             }
               
         }
         public void LookShortNotes()
         {
-            for (int i = 0; i < name.Count; i++)
+            for (int i = 0; i < records.Count; i++)
             {
                 
-                Console.WriteLine($"{i + 1}//{surname[i]}//{name[i]}//{phone[i]}");
+                Console.WriteLine($"{i + 1}//{records[i].Surname }//{records[i].Name}//{records[i].Phone}");
                
             }
         }
